@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Badge from '../Component/Badge.js';
+import Separator from './Helpers/Separator.js'
 
 import {
   View,
@@ -54,6 +55,7 @@ getRowTitle(user,item){
             <Text style={styles.rowTitle}> {this.getRowTitle(userInfo,item)}</Text>
             <Text style={styles.rowContent}> {userInfo[item]}</Text>
           </View>
+          <Separator />
         </View>
       )
     }
