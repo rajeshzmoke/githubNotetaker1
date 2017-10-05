@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Profile from '../Component/Profile.js';
 import Repositories from '../Component/Repositories.js';
 import api from '../Utils/api.js';
+import Notes from '../Component/Notes.js';
 
 import {
   StyleSheet,
@@ -47,8 +48,8 @@ makeBackground(btn){
 }
 
   goToProfile(){
-console.log('going to Profile');
-this.props.navigator.push({
+    console.log('going to Profile');
+    this.props.navigator.push({
   component: Profile,
   title: 'Profile Page',
   passProps: {userInfo: this.props.userInfo}
@@ -72,6 +73,18 @@ this.props.navigator.push({
 
   goToNotes(){
     console.log('going to notes');
+    api.getNotes(this.props.userInfo.login)
+    .then((res) => {
+      res = res || {};
+      this.props.navigator.push({
+        component: Notes,
+        title: 'Notes',
+        passProps: {
+          notes: res,
+          userInfo: this.props.userInfo
+        }
+      })
+    });
   }
 
 render() {

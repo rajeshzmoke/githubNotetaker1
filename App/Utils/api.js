@@ -11,13 +11,17 @@ getBio(username){
     return fetch(url).then((res) => res.json());
   },
   getNotes(username){
+    console.log("in get notes")
     username = username.toLowerCase().trim();
-    var url = 'https://githubnotes-6fd2e.firebaseio.com/${username}.json';
+    var url = `https://githubnoter-71269.firebaseio.com/${username}.json`;
+    console.log(url);
+    console.log(fetch(url).then((res) => res.json()));
     return fetch(url).then((res) => res.json());
-  }
+  },
   addNotes(username, note){
+    console.log("in ADD notes")
     username = username.toLowerCase().trim();
-    var url = 'https://githubnotes-6fd2e.firebaseio.com/${username}.json';
+    var url = `https://githubnoter-71269.firebaseio.com/${username}.json`;
     return fetch(url,{
       method: 'post',
       body: JSON.stringify(note)

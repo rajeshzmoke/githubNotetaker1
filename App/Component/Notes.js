@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import api from './Utils/api.js';
+import api from '../Utils/api.js';
+import Badge from '../Component/Badge.js';
 import Separator from './Helpers/Separator.js';
-import Badge from './Component/Badge.js';
+
 import {
   View,
   Text,
@@ -45,11 +46,11 @@ const styles = StyleSheet.create({
 });
 
 class Notes extends Component {
-  constructor() {
+  constructor(props) {
     super(props)
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
-      dataSource: this.ds.CloneWithRows(this.props.notes),
+      dataSource: this.ds.cloneWithRows(this.props.notes),
       note: '',
       error: ''
     };
@@ -59,6 +60,37 @@ class Notes extends Component {
       note: e.nativeEvent.text
     });
   }
+  handlesubmit(){
+    var note=this.state.note;
+    this.setState({
+    note:''
+    });
+    console.log();
+    console.log(this.props.userInfo.login)
+    api.addNotes(this.props.userInfo.login, note)
+    .then((data) =>{
+      api.getNotes(this.props.userInfo.login)
+      .then((data) => {
+        this.setState({
+          dataSource: this.ds.cloneWithRows(data)
+        })
+      })
+    }).catch((err) => {
+      console.log('Request failed', err);
+      this.setState((error));
+    });
+  }
+  renderRow(rowData){
+    return(
+      <View>
+        <View style={styles.rowContainer}>
+          <Text>{rowData}</Text>
+        </View>
+        <Separator/>
+    </View>
+    )
+  }
+
 footer(){
   return(
     <View style={styles.footerContainer}>
@@ -66,20 +98,35 @@ footer(){
         style={styles.searchInput}
         value={this.state.note}
         onChange={this.handleChange.bind(this)}
-        placeholder='New Note'>
-        </TextInput>
+        placeholder='New Note' />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handlesubmit.bind(this)}
+          underlayColor='#88D4F5'>
+          <Text style={styles.buttonText}> Submit </Text>
+        </TouchableHighlight>
     </View>
   )
 }
 
   render() {
-    <View style={styles.container}>
-      {this.footer()}
-    </View>
-    return (
-
-    );
+    var userInfo = this.props.userInfo;
+    return(
+      <View style={styles.container}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+          renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
+        />
+        {this.footer()}
+      </View>
+    )
   }
 }
 
-module exports = Notes;
+Notes.propTypes = {
+  userInfo: React.PropTypes.object.isRequired,
+  notes: React.PropTypes.object.isRequired
+};
+
+module.exports = Notes;

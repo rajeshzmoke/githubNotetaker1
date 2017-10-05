@@ -39,8 +39,6 @@ getRowTitle(user,item){
 }
 
   render() {
-
-    console.log('githubNotetaker');
     console.log("inside render");
     console.log(this.props.userInfo);
     var userInfo = this.props.userInfo;
