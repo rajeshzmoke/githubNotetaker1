@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Profile from '../Component/Profile.js';
+import Repositories from '../Component/Repositories.js';
+import api from '../Utils/api.js';
+
 import {
   StyleSheet,
   Text,
@@ -47,13 +50,26 @@ makeBackground(btn){
 console.log('going to Profile');
 this.props.navigator.push({
   component: Profile,
+  title: 'Profile Page',
   passProps: {userInfo: this.props.userInfo}
-
-});
+  });
   }
+
   goToRepos(){
     console.log('going to repos');
+    api.getRepos(this.props.userInfo.login)
+    .then((res) =>{
+      this.props.navigator.push({
+        component: Repositories,
+        title: 'Repositories Page',
+        passProps: {
+          userInfo:this.props.userInfo,
+          repos: res
+        }
+      });
+    });
   }
+
   goToNotes(){
     console.log('going to notes');
   }
