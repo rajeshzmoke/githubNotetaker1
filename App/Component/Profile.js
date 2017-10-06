@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Badge from '../Component/Badge.js';
 import Separator from './Helpers/Separator.js'
+<<<<<<< HEAD
+=======
 
+>>>>>>> 40f01144e866eee98591042335cc30f87d9f9cac
 import {
   View,
   StyleSheet,
@@ -53,7 +56,11 @@ getRowTitle(user,item){
             <Text style={styles.rowTitle}> {this.getRowTitle(userInfo,item)}</Text>
             <Text style={styles.rowContent}> {userInfo[item]}</Text>
           </View>
+<<<<<<< HEAD
+          <Separator></Separator>
+=======
           <Separator />
+>>>>>>> 40f01144e866eee98591042335cc30f87d9f9cac
         </View>
       )
     }
